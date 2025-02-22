@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 import { DB_NAME } from "../contants.js";
+import { ApiError } from "../utils/apiError.js";
 
 const dbConnect = async () => {
   try {
@@ -9,7 +10,12 @@ const dbConnect = async () => {
     );
 
     console.log("we are connect to database at", connection.connection.host);
-  } catch (error) {}
+  } catch (error) {
+    throw new ApiError(
+      401,
+      error.message || "error in connection of database in db connect"
+    );
+  }
 };
 
 export { dbConnect };
