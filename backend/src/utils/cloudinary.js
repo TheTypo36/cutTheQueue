@@ -16,8 +16,8 @@ cloudinary.config({
 const uploadOnCloudinary = async (localFilePath) => {
   try {
     if (!localFilePath) return null;
-    const absolutePath = path.resolve(localFilePath);
-    console.log("absolutePath", absolutePath);
+    // const absolutePath = path.resolve(localFilePath); //this is for getting the absolute path of the file
+    // console.log("absolutePath", absolutePath);
     console.log("localFilePath", localFilePath);
 
     const result = await cloudinary.uploader.upload(localFilePath, {

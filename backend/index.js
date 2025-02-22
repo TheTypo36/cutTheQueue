@@ -2,7 +2,7 @@ import { configDotenv } from "dotenv";
 import app from "./app.js";
 import "dotenv";
 import { dbConnect } from "./src/DB/index.js";
-import { ApiError } from "./src/utils/apiError.js";
+import { ApiError } from "./src/utils/ApiError.js";
 configDotenv({
   path: "./.env",
 });
