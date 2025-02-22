@@ -7,17 +7,18 @@ const patientSchema = new mongoose.Schema({
   },
   age: {
     type: Number,
-    required,
+    required: true,
   },
   deparment: {
     type: String,
     required: true,
   },
   doctor: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Doctor",
     required: true,
   },
-  isNew: {
+  isNewPatient: {
     type: Boolean,
     default: true,
   },
