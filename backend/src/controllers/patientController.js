@@ -5,6 +5,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { PatientToken } from "../Models/patientToken.models.js";
 import { Doctor } from "../Models/doctor.models.js";
+import { Department } from "../Models/department.models.js";
 // import generateToken from "../utils/generateToken.js";
 const options = {
   httpOnly: true,
@@ -117,6 +118,13 @@ const register = asyncHandler(async (req, res) => {
   if (!medicalHistory) {
     throw new ApiError(500, "Error uploading medical history");
   }
+
+  const incomingDepartment = department.findOne({ name: department });
+
+  if (!incomingDepartment) {
+    incomingDepartment = await Department.create({ name: department });
+  }
+
   const patient = await Patient.create({
     name,
     email,
@@ -124,7 +132,7 @@ const register = asyncHandler(async (req, res) => {
     age,
     phoneNumber,
     isNewPatient,
-    department,
+    department: incomingDepartment._id,
     medicalHistory: medicalHistory.url,
   });
 

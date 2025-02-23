@@ -19,7 +19,8 @@ function SignIn() {
         email,
         password,
       });
-      signIn(response.data.patient, response.data.accessToken);
+      console.log(response.data.data);
+      signIn(response.data.data.patient, response.data.data.accessToken);
       navigate("/token-reaction");
     } catch (error) {
       console.error("Sign in error:", error);
