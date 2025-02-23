@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-// import LandingPage from "./components/LandingPage";
-// import Registration from "./components/Registration";
-// import SignIn from "./components/SignIn";
-// import TokenReaction from "./components/TokenReaction";
+import LandingPage from "./components/LandingPage";
+import Registration from "./components/Registration";
+import SignIn from "./components/SignIn";
+import TokenReaction from "./components/TokenReaction";
 // import TokenDetail from "./components/TokenDetail";
 
 function App() {
@@ -20,7 +20,6 @@ function App() {
               <Route path="/register" element={<Registration />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/token-reaction" element={<TokenReaction />} />
-              <Route path="/token-detail/:id" element={<TokenDetail />} />
             </Routes>
           </main>
           <Footer />

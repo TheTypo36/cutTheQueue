@@ -7,9 +7,9 @@ export const API_URLS = {
   //   UPDATE_PATIENT: (id) => `${BASE_URL}/patients/${id}`,
   //   DELETE_PATIENT: (id) => `${BASE_URL}/patients/${id}`,
 
-  GET_PATIENTS_TOKEN: `${BASE_URL}/patients/get-token-no`,
+  GET_PATIENTS_TOKEN: `${BASE_URL}/patient/get-token-no`,
   // Authentication routes
   LOGIN: `${BASE_URL}/patient/login`,
-  REGISTER: `${BASE_URL}/patient/register`,
+  REGISTER: `${BASE_URL}/patient/registration`,
   LOGOUT: `${BASE_URL}/patient/logout`,
 };

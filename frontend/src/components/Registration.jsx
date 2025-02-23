@@ -18,17 +18,23 @@ function Registration() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    console.log("api hitting at", API_URLS.REGISTER);
     e.preventDefault();
     try {
-      const response = await axios.post(API_URLS.REGISTER, {
-        name,
-        password,
-        email,
-        age,
-        isNewPatient,
-        department,
-        phoneNumber,
-        medicalHistory,
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("password", password);
+      formData.append("email", email);
+      formData.append("age", age);
+      formData.append("isNewPatient", isNewPatient);
+      formData.append("department", department);
+      formData.append("phoneNumber", phoneNumber);
+      formData.append("medicalHistory", medicalHistory);
+
+      const response = await axios.post(API_URLS.REGISTER, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
       console.log(response.data);
       navigate("/signin");
@@ -89,14 +95,14 @@ function Registration() {
             onChange={(e) => setDepartment(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-4 flex items-center">
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="boolean"
-            placeholder="Is New Patient"
-            value={isNewPatient}
-            onChange={(e) => setIsNewPatient(e.target.value)}
+            className="mr-2 leading-tight"
+            type="checkbox"
+            checked={isNewPatient}
+            onChange={(e) => setIsNewPatient(e.target.checked)}
           />
+          <span className="text-gray-700">New Patient</span>
         </div>
         <div className="mb-4">
           <input
