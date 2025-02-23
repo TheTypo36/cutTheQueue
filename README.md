@@ -49,7 +49,7 @@ Technologies used:
 ### Interface Preview:
 
 ![Medical record selection, dropdown to add family member, fetch records button](ContentPlaceholder4.jpg)  
-![Form: Personal info (Name, Contact, Gender, Blood Type), Save & Cancel buttons](https://asset.cloudinary.com/ddkuvxbhn/61fa7de41ec9bb51acefe035d3644348)
+![Form: Personal info (Name, Contact, Gender, Blood Type), Save & Cancel buttons](https://res.cloudinary.com/ddkuvxbhn/image/upload/v1740287754/ur05kyehqdlrzlvwaeyl.png)
 
 ---
 
@@ -61,7 +61,7 @@ Technologies used:
 - Token services will **open at a fixed time**, with a **limited number of slots** based on hospital capacity.
 
 Example:  
-![Token Display: Token No. 50, Doctor Ambhuj Roy, Cardiology Dept., Room No. 10-B, 14:00](https://asset.cloudinary.com/ddkuvxbhn/184971c20a19249276645bd954752beb)
+![Token Display: Token No. 50, Doctor Ambhuj Roy, Cardiology Dept., Room No. 10-B, 14:00](https://res.cloudinary.com/ddkuvxbhn/image/upload/v1740287754/ur05kyehqdlrzlvwaeyl.png)
 
 ---
 
