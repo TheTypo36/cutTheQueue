@@ -17,7 +17,8 @@ const departmentSchema = new mongoose.Schema(
       trim: true,
     },
     head: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctor",
       trim: true,
     },
     doctors: [

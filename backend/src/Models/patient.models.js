@@ -7,17 +7,20 @@ const patientSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     age: {
       type: Number,
       required: true,
     },
     department: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
       required: true,
     },
     isNewPatient: {
@@ -27,6 +30,7 @@ const patientSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
       required: true,
+      unique: true,
     },
     medicalHistory: {
       type: String,
@@ -37,6 +41,14 @@ const patientSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true, // password is required
+    },
+    patientToken: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PatientToken",
+    },
+    doctor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctor",
     },
   },
   {

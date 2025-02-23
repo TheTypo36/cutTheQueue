@@ -31,11 +31,13 @@ const hospitalSchema = new mongoose.Schema({
     required: true,
   },
   department: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Department",
     required: true,
   },
   doctor: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Doctor",
     required: true,
   },
   isNew: {
