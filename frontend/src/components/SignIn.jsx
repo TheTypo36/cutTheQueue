@@ -21,7 +21,9 @@ function SignIn() {
       });
       console.log(response.data.data);
       signIn(response.data.data.patient, response.data.data.accessToken);
-      navigate("/token-reaction");
+      navigate("/token-reaction", {
+        state: { tokenData: response.data.data.tokenData },
+      });
     } catch (error) {
       console.error("Sign in error:", error);
     }

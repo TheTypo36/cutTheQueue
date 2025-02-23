@@ -55,6 +55,8 @@ Technologies used:
 
 ## 🎟 Token No. Page & Hospital Info
 
+![Token Page Screenshot](image.png)
+
 - Tokens will be generated **on a first-come, first-served basis**.
 - Token services will **open at a fixed time**, with a **limited number of slots** based on hospital capacity.
 

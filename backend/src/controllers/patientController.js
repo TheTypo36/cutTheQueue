@@ -201,6 +201,7 @@ const login = asyncHandler(async (req, res) => {
 const getTokenNo = asyncHandler(async (req, res) => {
   try {
     const patient = await Patient.findById(req.patient._id);
+
     if (!patient) {
       throw new ApiError(404, "Patient not found");
     }
