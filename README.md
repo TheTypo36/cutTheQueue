@@ -32,7 +32,7 @@ We will be using the following technologies:
 
 Patients will submit their phone number, and our backend will use a service like **Twilio** to send a verification code. Upon verification, a **JWT token** will be generated for authentication.
 
-![Login Form: Mobile number input (+91) & WhatsApp updates option](https://asset.cloudinary.com/ddkuvxbhn/378e1ba488592c043466ed2c06fe0076)
+![Login Form: Mobile number input (+91) & WhatsApp updates option](https://res.cloudinary.com/ddkuvxbhn/image/upload/v1740287755/uttdlvfuph2rhwubeasp.png)
 
 ---
 
