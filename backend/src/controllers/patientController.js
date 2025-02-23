@@ -10,7 +10,7 @@ const options = {
   httpOnly: true,
   secure: true,
 };
-const generatePatientToken = asyncHandler(async (patientId) => {
+const generatePatientToken = async (patientId) => {
   try {
     console.log("➡️ Starting generatePatientToken for patientId:", patientId);
 
@@ -81,7 +81,7 @@ const generatePatientToken = asyncHandler(async (patientId) => {
     console.error("❌ ERROR in generatePatientToken:", error);
     throw new ApiError(500, "Error generating token in generatePatientToken");
   }
-});
+};
 
 const generateAcessTokenAndRefreshToken = async (patientId) => {
   try {
@@ -176,6 +176,7 @@ const login = asyncHandler(async (req, res) => {
   const loggedInPatient = await Patient.findById(patient._id).select(
     "-password -refreshToken"
   );
+  console.log("we are here", tokenData);
   return res
     .status(200)
     .cookie("refreshToken", refreshToken, options)
@@ -189,6 +190,28 @@ const login = asyncHandler(async (req, res) => {
     );
 });
 
+const getTokenNo = asyncHandler(async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.patient._id);
+    if (!patient) {
+      throw new ApiError(404, "Patient not found");
+    }
+
+    const tokenData = patient?.patientToken;
+    if (!tokenData) {
+      throw new ApiError(404, "Token not found");
+    }
+    const token = await PatientToken.findById(tokenData);
+    if (!token) {
+      throw new ApiError(404, "Token not  found");
+    }
+    return res
+      .status(200)
+      .json(new ApiResponse(200, token, "Token number fetched successfully"));
+  } catch (error) {
+    throw new ApiError(500, error.message || "Error fetching token number");
+  }
+});
 const logout = asyncHandler(async (req, res) => {
   await Patient.findByIdAndUpdate(
     req.patient._id,
@@ -208,4 +231,4 @@ const logout = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Patient logged out successfully"));
 });
 
-export { register, login, logout, generatePatientToken };
+export { register, login, logout, generatePatientToken, getTokenNo };

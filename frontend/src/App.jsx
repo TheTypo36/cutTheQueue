@@ -1,16 +1,32 @@
-import { useState } from "react";
-import Header from "./components/Header.jsx";
-import TokenGenerator from "./components/TokenGenerator.jsx";
-import Footer from "./components/Footer.jsx";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import { AuthProvider } from "./context/AuthContext";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+// import LandingPage from "./components/LandingPage";
+// import Registration from "./components/Registration";
+// import SignIn from "./components/SignIn";
+// import TokenReaction from "./components/TokenReaction";
+// import TokenDetail from "./components/TokenDetail";
 
 function App() {
   return (
-    <div className="">
-      <Header />
-      <TokenGenerator />
-      <Footer />
-    </div>
+    <AuthProvider>
+      <Router>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow bg-gray-100">
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/register" element={<Registration />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/token-reaction" element={<TokenReaction />} />
+              <Route path="/token-detail/:id" element={<TokenDetail />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
