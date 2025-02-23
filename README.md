@@ -32,7 +32,7 @@ We will be using the following technologies:
 
 Patients will submit their phone number, and our backend will use a service like **Twilio** to send a verification code. Upon verification, a **JWT token** will be generated for authentication.
 
-![Login Form: Mobile number input (+91) & WhatsApp updates option](Picture7.jpg)
+![Login Form: Mobile number input (+91) & WhatsApp updates option](https://asset.cloudinary.com/ddkuvxbhn/378e1ba488592c043466ed2c06fe0076)
 
 ---
 
@@ -49,7 +49,7 @@ Technologies used:
 ### Interface Preview:
 
 ![Medical record selection, dropdown to add family member, fetch records button](ContentPlaceholder4.jpg)  
-![Form: Personal info (Name, Contact, Gender, Blood Type), Save & Cancel buttons](Picture6.jpg)
+![Form: Personal info (Name, Contact, Gender, Blood Type), Save & Cancel buttons](https://asset.cloudinary.com/ddkuvxbhn/61fa7de41ec9bb51acefe035d3644348)
 
 ---
 
@@ -61,7 +61,7 @@ Technologies used:
 - Token services will **open at a fixed time**, with a **limited number of slots** based on hospital capacity.
 
 Example:  
-![Token Display: Token No. 50, Doctor Ambhuj Roy, Cardiology Dept., Room No. 10-B, 14:00](ContentPlaceholder4.jpg)
+![Token Display: Token No. 50, Doctor Ambhuj Roy, Cardiology Dept., Room No. 10-B, 14:00](https://asset.cloudinary.com/ddkuvxbhn/184971c20a19249276645bd954752beb)
 
 ---
 
