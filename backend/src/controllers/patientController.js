@@ -34,10 +34,11 @@ const generatePatientToken = async (patientId) => {
     }
 
     let assignedDoctor = null;
-
+    const department = await Department.findById(patient.department);
+    console.log("🏥 Fetched department:", department);
     if (patient.isNewPatient) {
       assignedDoctor = await Doctor.findOne({
-        department: patient.department,
+        department: department.name,
       }).sort({ patients: 1 });
       console.log("👨‍⚕️ Assigned Doctor (New Patient):", assignedDoctor);
     } else {
@@ -119,10 +120,10 @@ const register = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Error uploading medical history");
   }
 
-  const incomingDepartment = department.findOne({ name: department });
+  let incomingDepartment = await Department.findOne({ name: department });
 
   if (!incomingDepartment) {
-    incomingDepartment = await Department.create({ name: department });
+    throw (error = new ApiError(404, "Department not found"));
   }
 
   const patient = await Patient.create({
@@ -174,17 +175,9 @@ const login = asyncHandler(async (req, res) => {
   if (!accessToken || !refreshToken) {
     throw new ApiError(500, "Error generating tokens in patient login");
   }
+  //
+  // console.log("this is patientDepartment", patient.department);
 
-  const tokenData = await generatePatientToken(patient._id);
-  console.log("tokenData", tokenData);
-  if (!tokenData) {
-    throw new ApiError(500, "Error generating token in patient login");
-  }
-  console.log("patient logged in", patient._id);
-  const loggedInPatient = await Patient.findById(patient._id).select(
-    "-password -refreshToken"
-  );
-  console.log("we are here", tokenData);
   return res
     .status(200)
     .cookie("refreshToken", refreshToken, options)
@@ -192,7 +185,7 @@ const login = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        { patient: loggedInPatient, accessToken, tokenData, refreshToken },
+        { patient, accessToken, refreshToken },
         "Patientlogged in successfully"
       )
     );

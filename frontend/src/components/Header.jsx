@@ -13,10 +13,12 @@ function Header() {
         <nav>
           {user ? (
             <div className="flex items-center space-x-4">
-              <span>Welcome, {user.username}</span>
-              <Link to="/token-reaction" className="hover:underline">
+              <span>
+                {user.name === undefined ? " " : "Welcome,"} {user.name}
+              </span>
+              {/* <Link to="/token-reaction" className="hover:underline">
                 Tokens
-              </Link>
+              </Link> */}
               <button
                 onClick={signOut}
                 className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"

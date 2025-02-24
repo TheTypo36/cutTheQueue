@@ -5,7 +5,6 @@ const departmentSchema = new mongoose.Schema(
     hospital: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hospital",
-      required: true,
     },
     name: {
       type: String,

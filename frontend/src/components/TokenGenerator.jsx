@@ -1,54 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
+import { Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
+const navigate = useNavigate();
 const TokenGenerator = () => {
-  const [patientData, setPatientData] = useState({
-    name: "",
-    age: "",
-    symptoms: "",
-  });
-  const [token, setToken] = useState("");
-
   const generateToken = () => {
-    const tokenString = `${patientData.name}-${
-      patientData.age
-    }-${new Date().getTime()}`;
-    setToken(tokenString);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPatientData({
-      ...patientData,
-      [name]: value,
-    });
+    navigate("/token-reaction");
   };
 
   return (
-    <div>
-      <h1>Token Generator</h1>
-      <input
-        type="text"
-        name="name"
-        placeholder="Patient Name"
-        value={patientData.name}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="age"
-        placeholder="Patient Age"
-        value={patientData.age}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="symptoms"
-        placeholder="Symptoms"
-        value={patientData.symptoms}
-        onChange={handleChange}
-      />
-      <button onClick={generateToken}>Generate Token</button>
-      {token && <p>Generated Token: {token}</p>}
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">Token Generator</h2>
+        <p className="mb-4">
+          Click the button below to generate an access token.
+        </p>
+        <button
+          className="bg-red-500 text-white font-bold py-2 px-4 rounded"
+          onClick={generateToken}
+        >
+          Generate Access Token
+        </button>
+      </div>
     </div>
   );
 };

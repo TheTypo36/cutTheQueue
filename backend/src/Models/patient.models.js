@@ -21,7 +21,6 @@ const patientSchema = new mongoose.Schema(
     department: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Department",
-      required: true,
     },
     isNewPatient: {
       type: Boolean,
