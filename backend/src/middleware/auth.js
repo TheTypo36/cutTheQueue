@@ -5,12 +5,14 @@ import { ApiError } from "../utils/apiError.js";
 
 export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
-    const { accessToken } = req.cookies;
-    if (!accessToken) {
+    console.log("received token:", req.headers.authorization);
+    const token =
+      req.cookies.accessToken || req.headers.authorization?.split(" ")[1]; // get the token from the request header
+    if (!token) {
       throw new ApiError(401, "Invalid token");
     }
 
-    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const patient = await Patient.findById(decoded?._id).select(
       "-password -refreshToken"
     );
@@ -21,6 +23,6 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     req.patient = patient;
     next();
   } catch (error) {
-    throw new ApiError(401, error.message || "Invalid token");
+    throw new ApiError(401, error?.message || "Invalid token");
   }
 });

@@ -1,9 +1,8 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
 const TokenGenerator = () => {
+  const navigate = useNavigate();
   const generateToken = () => {
     navigate("/token-reaction");
   };

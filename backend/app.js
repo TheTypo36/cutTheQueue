@@ -5,10 +5,14 @@ import "dotenv";
 
 const app = express();
 
+// Allow only frontend URL
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
+    origin: process.env.FRONT_END_URL, // Allow only frontend URL
+    credentials: true, // Allow cookies and authorization headers
+    methods: "GET,POST,PUT,DELETE,OPTIONS", // Allow necessary methods
+    allowedHeaders: "Content-Type,Authorization", // Allow required headers
   })
 );
 

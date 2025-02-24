@@ -10,6 +10,7 @@ import { Department } from "../Models/department.models.js";
 const options = {
   httpOnly: true,
   secure: true,
+  sameSite: "None",
 };
 const generatePatientToken = async (patientId) => {
   try {

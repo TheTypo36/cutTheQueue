@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Header() {
   const { user, signOut } = useAuth();
-
+  const navigate = useNavigate();
+  const handleSigOut = () => {
+    signOut();
+    navigate("/signin");
+  };
   return (
     <header className="bg-blue-600 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -20,7 +24,7 @@ function Header() {
                 Tokens
               </Link> */}
               <button
-                onClick={signOut}
+                onClick={handleSigOut}
                 className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
               >
                 Sign Out
