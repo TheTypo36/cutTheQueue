@@ -5,9 +5,10 @@ import { ApiError } from "../utils/apiError.js";
 
 export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
-    console.log("received token:", req.headers.authorization);
     const token =
-      req.cookies.accessToken || req.headers.authorization?.split(" ")[1]; // get the token from the request header
+      req.cookies.accessToken ||
+      req.headers.authorization?.split(" ")[1].trim(); // get the token from the request header
+    console.log("received token:", token);
     if (!token) {
       throw new ApiError(401, "Invalid token");
     }

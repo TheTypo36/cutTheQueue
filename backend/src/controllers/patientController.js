@@ -39,7 +39,7 @@ const generatePatientToken = async (patientId) => {
     console.log("🏥 Fetched department:", department);
     if (patient.isNewPatient) {
       assignedDoctor = await Doctor.findOne({
-        department: department.name,
+        department: department._id,
       }).sort({ patients: 1 });
       console.log("👨‍⚕️ Assigned Doctor (New Patient):", assignedDoctor);
     } else {
@@ -200,9 +200,11 @@ const getTokenNo = asyncHandler(async (req, res) => {
       throw new ApiError(404, "Patient not found");
     }
 
-    const tokenData = patient?.patientToken;
+    let tokenData = patient?.patientToken;
     if (!tokenData) {
-      throw new ApiError(404, "Token not found");
+      newToken = await generatePatientToken(patient._id);
+      console.log("getting new token", newToken._id);
+      tokenData = newToken._id;
     }
     const token = await PatientToken.findById(tokenData);
     if (!token) {
