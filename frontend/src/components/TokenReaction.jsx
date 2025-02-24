@@ -45,21 +45,28 @@ function TokenReaction() {
   }, [user, navigate]);
 
   return (
-    <div>
-      <h2 className="text-xl font-bold">Patient Name: {user?.name}</h2>
-      {patientTokenNumber ? (
-        <div className="p-4 mb-4 bg-white rounded shadow-md">
-          <h2 className="text-xl font-bold">
-            Token No: {patientTokenNumber.token}
-          </h2>
-          <p className="text-gray-700">Doctor: {patientTokenNumber.doctor}</p>
-          <p className="text-gray-700">
-            Department: {patientTokenNumber.department}
-          </p>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-4">Patient Details</h2>
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold">Name: {user?.name}</h3>
         </div>
-      ) : (
-        <p className="text-gray-700">No tokens available</p>
-      )}
+        {patientTokenNumber ? (
+          <div className="p-6 bg-gray-50 rounded-lg shadow-inner">
+            <h3 className="text-xl font-semibold mb-2">
+              Token No: {patientTokenNumber.token}
+            </h3>
+            <p className="text-gray-700 mb-1">
+              Doctor: {patientTokenNumber.doctor}
+            </p>
+            <p className="text-gray-700">
+              Department: {patientTokenNumber.department}
+            </p>
+          </div>
+        ) : (
+          <p className="text-gray-700 text-center">No tokens available</p>
+        )}
+      </div>
     </div>
   );
 }
