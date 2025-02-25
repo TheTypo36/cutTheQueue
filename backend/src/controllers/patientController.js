@@ -22,56 +22,62 @@ const generatePatientToken = async (patientId) => {
 
     console.log("📅 Today's date string:", todayStr);
 
-    // Corrected query (matching string format)
+    // Find existing token for today
     let tokenData = await PatientToken.findOne({ date: todayStr });
     console.log("🔍 Existing tokenData:", tokenData);
 
     const patient = await Patient.findById(patientId);
-    console.log("🧑‍⚕️ Fetched patient:", patient);
-
     if (!patient) {
       console.error("❌ ERROR: Patient not found!");
       throw new ApiError(404, "Patient not found");
     }
 
-    let assignedDoctor = null;
+    console.log("🧑‍⚕️ Fetched patient:", patient);
+
     const department = await Department.findById(patient.department);
     console.log("🏥 Fetched department:", department);
-    if (patient.isNewPatient) {
-      assignedDoctor = await Doctor.findOne({
-        department: department._id,
-      }).sort({ patients: 1 });
-      console.log("👨‍⚕️ Assigned Doctor (New Patient):", assignedDoctor);
-    } else {
-      assignedDoctor = patient.doctor;
-      console.log("👨‍⚕️ Assigned Doctor (Existing Patient):", assignedDoctor);
-    }
+
+    let assignedDoctor = patient.isNewPatient
+      ? await Doctor.findOne({ department: department._id }).sort({
+          patients: 1,
+        })
+      : patient.doctor;
+
+    console.log("👨‍⚕️ Assigned Doctor:", assignedDoctor);
 
     if (!tokenData) {
       console.log("⚠️ No existing tokenData found. Creating a new one...");
 
-      // Generate a random token
+      // Generate a unique token
       const generatedToken = `TOKEN-${Date.now()}-${Math.floor(
         Math.random() * 1000
       )}`;
 
       tokenData = await PatientToken.create({
-        token: generatedToken, // Added required token field
+        token: generatedToken,
         date: todayStr,
         lastTokenNo: 1,
         department: patient.department,
         doctor: assignedDoctor ? assignedDoctor._id : null,
         patient: patient._id,
       });
-
-      console.log("✅ Created new PatientToken:", tokenData);
     } else {
       console.log("🔄 Incrementing lastTokenNo...");
       tokenData.lastTokenNo += 1;
       await tokenData.save();
     }
 
-    console.log("📌 Updating patient's token reference...");
+    console.log(
+      "📌 Populating patient token with doctor & department details..."
+    );
+
+    // ✅ Populate doctor & department name inside tokenData
+    await tokenData.populate([
+      { path: "doctor", select: "name" },
+      { path: "department", select: "name" },
+    ]);
+
+    // Update patient with the latest token reference
     patient.patientToken = tokenData._id;
     await patient.save({ validateBeforeSave: false });
 
@@ -202,17 +208,15 @@ const getTokenNo = asyncHandler(async (req, res) => {
 
     let tokenData = patient?.patientToken;
     if (!tokenData) {
-      newToken = await generatePatientToken(patient._id);
-      console.log("getting new token", newToken._id);
-      tokenData = newToken._id;
+      tokenData = await generatePatientToken(patient._id);
+      console.log("getting new token", tokenData);
     }
-    const token = await PatientToken.findById(tokenData);
-    if (!token) {
-      throw new ApiError(404, "Token not  found");
-    }
+
     return res
       .status(200)
-      .json(new ApiResponse(200, token, "Token number fetched successfully"));
+      .json(
+        new ApiResponse(200, tokenData, "Token number fetched successfully")
+      );
   } catch (error) {
     throw new ApiError(500, error.message || "Error fetching token number");
   }

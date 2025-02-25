@@ -36,6 +36,7 @@ function TokenReaction() {
           gettingPatientTokenNumber
         );
         setPatientTokenNumber(gettingPatientTokenNumber.data.data);
+        console.log("got number", patientTokenNumber);
       } catch (error) {
         console.error("Error fetching tokens:", error);
       }
@@ -54,13 +55,13 @@ function TokenReaction() {
         {patientTokenNumber ? (
           <div className="p-6 bg-gray-50 rounded-lg shadow-inner">
             <h3 className="text-xl font-semibold mb-2">
-              Token No: {patientTokenNumber.token}
+              Token No: {patientTokenNumber?.token}
             </h3>
             <p className="text-gray-700 mb-1">
-              Doctor: {patientTokenNumber.doctor}
+              Doctor: {patientTokenNumber?.doctor?.name}
             </p>
             <p className="text-gray-700">
-              Department: {patientTokenNumber.department}
+              Department: {patientTokenNumber?.department?.name}
             </p>
           </div>
         ) : (
