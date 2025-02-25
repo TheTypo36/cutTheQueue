@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 import { DB_NAME } from "../contants.js";
-import { ApiError } from "../utils/apiError.js";
+import { ApiError } from "../utils/ApiError.js";
 
 const dbConnect = async () => {
   try {
