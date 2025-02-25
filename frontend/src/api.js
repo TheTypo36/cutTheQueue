@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:4003/api/v1"; // Change this when deploying
+const BASE_URL = "https://fosshack2025.onrender.com"; // Change this when deploying
 
 export const API_URLS = {
   //   GET_PATIENTS: `${BASE_URL}/patients`,
