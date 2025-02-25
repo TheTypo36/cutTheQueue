@@ -7,12 +7,21 @@ const app = express();
 
 // Allow only frontend URL
 
+const allowedOrigins = [
+  "https://fosshack-2025-qqxa5momk-thetypo36s-projects.vercel.app",
+  "https://fosshack-2025.vercel.app", // Add all Vercel domains
+];
+
 app.use(
   cors({
-    origin: process.env.FRONT_END_URL, // Allow only frontend URL
-    credentials: true, // Allow cookies and authorization headers
-    methods: "GET,POST,PUT,DELETE,OPTIONS", // Allow necessary methods
-    allowedHeaders: "Content-Type,Authorization", // Allow required headers
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
 
