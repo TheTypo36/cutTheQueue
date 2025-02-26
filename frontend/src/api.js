@@ -1,4 +1,4 @@
-const API_URL = {
+const API_URLS = {
   PROD_BASE_URL: String(import.meta.env.VITE_PROD_BASE_URL),
   LOGIN: `${String(import.meta.env.VITE_PROD_BASE_URL)}/${String(
     import.meta.env.VITE_LOGIN_PATIENT_ROUTE
@@ -14,4 +14,4 @@ const API_URL = {
   )}`,
 };
 
-export { API_URL };
+export { API_URLS };
