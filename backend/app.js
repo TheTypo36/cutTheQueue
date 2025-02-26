@@ -7,21 +7,25 @@ import "dotenv";
 const app = express();
 
 // Allow only frontend URL
+const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
+
+const devOrigin = ["http://localhost:5173"];
+
+const allowedOrigins =
+  process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
 
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        fontSrc: ["'self'", "https://fosshack2025.onrender.com"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-      },
-    },
-  })
-);
-app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin)) {
+        console.log(origin, allowedOrigins);
+        callback(null, true);
+      } else {
+        callback(new ApiError("not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    metthods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })
 );
 
@@ -31,6 +35,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 import patientRouter from "./src/Routes/patientRouter.routes.js";
+import { ApiError } from "./src/utils/ApiError.js";
 app.use("/api/v1/patient", patientRouter);
 // app.use("/api/v1/hospital", hospitalRouter);
 // app.use("/api/v1/doctor", doctorRouter);
