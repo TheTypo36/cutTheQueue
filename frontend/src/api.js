@@ -1,15 +1,17 @@
-const BASE_URL = "https://fosshack2025.onrender.com"; // Change this when deploying
-
-export const API_URLS = {
-  //   GET_PATIENTS: `${BASE_URL}/patients`,
-  //   GET_PATIENT_BY_ID: (id) => `${BASE_URL}/patients/${id}`,
-  //   CREATE_PATIENT: `${BASE_URL}/patients`,
-  //   UPDATE_PATIENT: (id) => `${BASE_URL}/patients/${id}`,
-  //   DELETE_PATIENT: (id) => `${BASE_URL}/patients/${id}`,
-
-  GET_PATIENTS_TOKEN: `${BASE_URL}/patient/get-token-no`,
-  // Authentication routes
-  LOGIN: `${BASE_URL}/patient/login`,
-  REGISTER: `${BASE_URL}/patient/registration`,
-  LOGOUT: `${BASE_URL}/patient/logout`,
+const API_URL = {
+  PROD_BASE_URL: String(import.meta.env.VITE_PROD_BASE_URL),
+  LOGIN: `${String(import.meta.env.VITE_PROD_BASE_URL)}/${String(
+    import.meta.env.VITE_LOGIN_PATIENT_ROUTE
+  )}`,
+  LOGOUT: `${String(import.meta.env.VITE_PROD_BASE_URL)}/${String(
+    import.meta.env.VITE_LOGOUT_PATIENT_ROUTE
+  )}`,
+  REGISTER: `${String(import.meta.env.VITE_PROD_BASE_URL)}/${String(
+    import.meta.env.VITE_REGISTER_PATIENT_ROUTE
+  )}`,
+  GET_PATIENTS_TOKEN: `${String(import.meta.env.VITE_PROD_BASE_URL)}/${String(
+    import.meta.env.VITE_GET_TOKEN_NO
+  )}`,
 };
+
+export { API_URL };
