@@ -7,21 +7,9 @@ const app = express();
 
 // Allow only frontend URL
 
-const allowedOrigins = [
-  "https://fosshack-2025-qqxa5momk-thetypo36s-projects.vercel.app",
-  "https://fosshack-2025.vercel.app", // Add all Vercel domains
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
+    origin: process.env.CORS_ORIGIN,
   })
 );
 
