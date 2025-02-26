@@ -15,7 +15,7 @@ dbConnect().then(() => {
     );
   });
 
-  app.listen(process.env.PORT, "0.0.0.0", () => {
+  app.listen(process.env.PORT, () => {
     console.log(`server is running ${process.env.PORT}`);
   });
 });
