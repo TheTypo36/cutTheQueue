@@ -13,6 +13,11 @@ const devOrigin = ["http://localhost:5173"];
 const allowedOrigins =
   process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
 
+console.log("PORT:", process.env.PORT);
+console.log("MONGODB_URI:", process.env.MONGODB_URI);
+console.log("ORIGIN_1:", process.env.ORIGIN_1);
+console.log("ORIGIN_2:", process.env.ORIGIN_2);
+
 app.use(
   cors({
     origin: (origin, callback) => {
