@@ -6,22 +6,12 @@ dotenv.config();
 const app = express();
 
 // Allow only frontend URL
-// const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
-
-// const devOrigin = ["http://localhost:5173"];
-
-// const allowedOrigins =
-//   process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
-// app.use(
-//   cors({
-//     origin: allowedOrigins,
-//     credentials: true,
-//   })
-// );
-
-// import cors from "cors";
-
-const allowedOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
+const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2].filter(
+  Boolean
+);
+const devOrigin = ["http://localhost:5173"];
+const allowedOrigins =
+  process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
 
 app.use(
   cors({
@@ -29,29 +19,13 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(new ApiError("Not allowed by CORS"));
       }
     },
-    credentials: true, // 🔴 Required to send cookies or authentication headers
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (allowedOrigins.includes(origin)) {
-//         console.log(origin, allowedOrigins);
-//         callback(null, true);
-//       } else {
-//         callback(new ApiError("not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-//   })
-// );
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
