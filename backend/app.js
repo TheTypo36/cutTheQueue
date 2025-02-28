@@ -6,16 +6,35 @@ dotenv.config();
 const app = express();
 
 // Allow only frontend URL
-const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
+// const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
 
-const devOrigin = ["http://localhost:5173"];
+// const devOrigin = ["http://localhost:5173"];
 
-const allowedOrigins =
-  process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
+// const allowedOrigins =
+//   process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true,
+//   })
+// );
+
+// import cors from "cors";
+
+const allowedOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
+
 app.use(
   cors({
-    origin: allowedOrigins,
-    credentials: true,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // 🔴 Required to send cookies or authentication headers
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
