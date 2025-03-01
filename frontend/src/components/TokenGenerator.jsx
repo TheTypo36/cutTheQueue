@@ -12,13 +12,13 @@ const TokenGenerator = () => {
       <div className="bg-white shadow-md rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Token Generator</h2>
         <p className="mb-4">
-          Click the button below to generate an access token.
+          Click the button below to generate an Patient token.
         </p>
         <button
           className="bg-red-500 text-white font-bold py-2 px-4 rounded"
           onClick={generateToken}
         >
-          Generate Access Token
+          Generate Patient Token
         </button>
       </div>
     </div>

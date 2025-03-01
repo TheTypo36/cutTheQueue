@@ -6,33 +6,35 @@ dotenv.config();
 const app = express();
 
 // Allow only frontend URL
-const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
-
+const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2].filter(
+  Boolean
+);
 const devOrigin = ["http://localhost:5173"];
-
 const allowedOrigins =
   process.env.NODE_ENV === "production" ? prodOrigins : devOrigin;
+
+console.log("PORT:", process.env.PORT);
+console.log("MONGODB_URI:", process.env.MONGODB_URI);
+console.log("ORIGIN_1:", process.env.ORIGIN_1);
+console.log("ORIGIN_2:", process.env.ORIGIN_2);
+
 app.use(
   cors({
+<<<<<<< HEAD
     origin: allowedOrigins || devOrigin,
+=======
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new ApiError("Not allowed by CORS"));
+      }
+    },
+>>>>>>> 28f961fe3ead296c02ab3e9f7cdc0b168f7372bd
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })
 );
-
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (allowedOrigins.includes(origin)) {
-//         console.log(origin, allowedOrigins);
-//         callback(null, true);
-//       } else {
-//         callback(new ApiError("not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-//   })
-// );
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));

@@ -4,6 +4,14 @@ _A Web-app that bridges the gap between patients and doctors._
 
 ---
 
+## deployedLink
+
+[CutTheQueue](https://cutthequeue.vercel.app/)
+
+## Demo Video
+
+[see how app works](https://res.cloudinary.com/ddkuvxbhn/video/upload/v1740741158/fvx5jrxtk69fzygybj1e.mkv)
+
 ## 🛠 Tech Stack
 
 We will be using the following technologies:
