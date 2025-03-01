@@ -50,17 +50,17 @@ function Registration() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 mt-20">
       <ToastContainer position="top-right" autoClose={3000} />
-      <h2 className="text-3xl font-bold mb-4 text-blue-600">Register</h2>
+      <h2 className="text-4xl font-bold mb-8 text-white">Register</h2>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white shadow-lg rounded-lg px-10 pt-8 pb-10 mb-4 w-full max-w-md"
       >
-        <div className="mb-4">
+        <div className="mb-6">
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Username"
             value={name}
@@ -69,41 +69,41 @@ function Registration() {
         </div>
         <div className="mb-6">
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-6">
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-6">
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="number"
             placeholder="Age"
             value={age}
             onChange={(e) => setAge(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-6">
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Department"
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
           />
         </div>
-        <div className="mb-4 flex items-center">
+        <div className="mb-6 flex items-center">
           <input
             className="mr-2 leading-tight"
             type="checkbox"
@@ -112,18 +112,18 @@ function Registration() {
           />
           <span className="text-gray-700">New Patient</span>
         </div>
-        <div className="mb-4">
+        <div className="mb-6">
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Phone Number"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-6">
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             type="file"
             placeholder="Medical History"
             onChange={(e) => setMedicalHistory(e.target.files[0])}
@@ -131,7 +131,7 @@ function Registration() {
         </div>
         <div className="flex items-center justify-between">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
             type="submit"
             disabled={loading}
           >

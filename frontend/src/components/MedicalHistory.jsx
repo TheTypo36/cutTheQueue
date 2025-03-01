@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import { API_URLS } from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import { Container, Row, Col, Card, Image } from "react-bootstrap";
+import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+// import "react-image-lightbox/style.css";
+
 const MedicalHistory = () => {
   const [medicalHistory, setMedicalHistory] = useState("");
   useEffect(() => {
@@ -38,14 +44,26 @@ const MedicalHistory = () => {
     fetchMedicalRecord();
   }, []);
   return (
-    <div className="">
+    <Container className="mt-5">
       <ToastContainer position="top-right" autoClose={3000} />
-      {medicalHistory === "" ? (
-        <div className="left-3 top-7">no records found</div>
-      ) : (
-        <img src={medicalHistory} />
-      )}
-    </div>
+      <Row className="justify-content-center">
+        <Col md={8}>
+          <Card className="p-4 shadow-sm">
+            {medicalHistory === "" ? (
+              <div className="text-center text-muted">No records found</div>
+            ) : (
+              <Image
+                src={medicalHistory}
+                className="img-fluid"
+                alt="Medical History"
+                style={{ maxHeight: "100%", maxWidth: "100%" }}
+                fluid
+              />
+            )}
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

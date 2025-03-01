@@ -13,30 +13,23 @@ function Header() {
     navigate("/medical-history");
   };
   return (
-    <header className="bg-blue-600 text-white p-4">
+    <header className="bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 fixed w-full top-0 shadow-lg z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold">
+        <Link to="/" className="text-3xl font-bold">
           CutTheQueue
         </Link>
         <nav>
           {user ? (
             <div className="flex items-center space-x-4">
-              {user ? (
-                <button
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleFetchMedicalHistory}
-                >
-                  medicalHistory
-                </button>
-              ) : (
-                ""
-              )}
-              <span>
-                {user.name === undefined ? " " : "Welcome,"} {user.name}
+              <button
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+                onClick={handleFetchMedicalHistory}
+              >
+                Medical History
+              </button>
+              <span className="font-semibold">
+                {user.name ? `Welcome, ${user.name}` : ""}
               </span>
-              {/* <Link to="/token-reaction" className="hover:underline">
-                Tokens
-              </Link> */}
               <button
                 onClick={handleSigOut}
                 className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
