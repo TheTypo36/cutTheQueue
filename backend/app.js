@@ -20,9 +20,7 @@ console.log("ORIGIN_2:", process.env.ORIGIN_2);
 
 app.use(
   cors({
-<<<<<<< HEAD
     origin: allowedOrigins || devOrigin,
-=======
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
@@ -30,7 +28,6 @@ app.use(
         callback(new ApiError("Not allowed by CORS"));
       }
     },
->>>>>>> 28f961fe3ead296c02ab3e9f7cdc0b168f7372bd
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })

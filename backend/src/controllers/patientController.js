@@ -240,4 +240,27 @@ const logout = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Patient logged out successfully"));
 });
 
-export { register, login, logout, generatePatientToken, getTokenNo };
+const getMedicalRecord = asyncHandler(async (req, res) => {
+  if (!req.patient || !req.patient.medicalHistory) {
+    throw new ApiError(500, "not getting the info from verifyjwt");
+  }
+  const medicalHistory = req.patient.medicalHistory;
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        medicalHistory,
+        "successfull fetched patient medical History"
+      )
+    );
+});
+export {
+  register,
+  login,
+  logout,
+  generatePatientToken,
+  getTokenNo,
+  getMedicalRecord,
+};

@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { upload } from "../middleware/multer.js";
-import { register } from "../controllers/patientController.js";
+import {
+  getMedicalRecord,
+  register,
+} from "../controllers/patientController.js";
 import { login } from "../controllers/patientController.js";
 import { logout } from "../controllers/patientController.js";
 import { verifyJwt } from "../middleware/auth.js";
@@ -15,5 +18,6 @@ router.route("/login").post(login);
 router.route("/logout").post(verifyJwt, logout);
 router.route("/get-token-no").post(verifyJwt, getTokenNo);
 
+router.route("/get-medical-history").post(verifyJwt, getMedicalRecord);
 export default router;
 // Compare this snippet from frontend/src/components/Header.jsx:

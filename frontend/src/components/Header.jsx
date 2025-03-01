@@ -8,6 +8,10 @@ function Header() {
     signOut();
     navigate("/signin");
   };
+
+  const handleFetchMedicalHistory = () => {
+    navigate("/medical-history");
+  };
   return (
     <header className="bg-blue-600 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -17,6 +21,16 @@ function Header() {
         <nav>
           {user ? (
             <div className="flex items-center space-x-4">
+              {user ? (
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                  onClick={handleFetchMedicalHistory}
+                >
+                  medicalHistory
+                </button>
+              ) : (
+                ""
+              )}
               <span>
                 {user.name === undefined ? " " : "Welcome,"} {user.name}
               </span>

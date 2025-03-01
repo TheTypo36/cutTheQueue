@@ -7,6 +7,7 @@ import Registration from "./components/Registration";
 import SignIn from "./components/SignIn";
 import TokenReaction from "./components/TokenReaction";
 import TokenGenerator from "./components/TokenGenerator";
+import MedicalHistory from "./components/MedicalHistory";
 // import TokenDetail from "./components/TokenDetail";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/token-reaction" element={<TokenReaction />} />
               <Route path="/token-generation" element={<TokenGenerator />} />
+              <Route path="/medical-history" element={<MedicalHistory />} />
             </Routes>
           </main>
           <Footer />

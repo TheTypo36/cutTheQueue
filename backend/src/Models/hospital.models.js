@@ -6,7 +6,8 @@ const hospitalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  partment: {
+
+  department: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Department",
     required: true,
