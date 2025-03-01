@@ -1,5 +1,5 @@
 "use client";
-
+import { toast, ToastContainer } from "react-toastify";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -14,10 +14,12 @@ function Registration() {
   const [isNewPatient, setIsNewPatient] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [medicalHistory, setMedicalHistory] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     console.log("api hitting at", API_URLS.REGISTER);
     e.preventDefault();
     try {
@@ -36,16 +38,22 @@ function Registration() {
           "Content-Type": "multipart/form-data",
         },
       });
+      setLoading(false);
       console.log(response.data);
+      toast.success("User Resgistered :: signIn the user");
       navigate("/signin");
     } catch (error) {
       console.error("Registration error:", error);
+      setLoading(false);
+      toast.error("failed to registered the user");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-3xl font-bold mb-4 text-blue-600">Register</h2>
+
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
@@ -125,8 +133,19 @@ function Registration() {
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
+            disabled={loading}
           >
-            Register
+            {loading ? (
+              <>
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 border-t-2 border-white rounded-full"
+                  viewBox="0 0 24 24"
+                ></svg>
+                Registering...
+              </>
+            ) : (
+              "Register"
+            )}
           </button>
         </div>
       </form>
