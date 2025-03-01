@@ -40,6 +40,12 @@ function Header() {
           ) : (
             <div className="space-x-4">
               <Link
+                to="/adminLogin"
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+              >
+                adminPanel
+              </Link>
+              <Link
                 to="/signin"
                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
               >

@@ -13,6 +13,7 @@ const API_URLS = {
   GET_PATIENTS_MEDICAL_HISTORY: `${BASE_URL}${
     import.meta.env.VITE_GET_MEDICAL_HISTORY
   }`,
+  GET_ADMIN: `${BASE_URL}${import.meta.env.VITE_GET_ADMIN}`,
 };
 
 export { API_URLS };

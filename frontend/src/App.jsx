@@ -8,6 +8,8 @@ import SignIn from "./components/SignIn";
 import TokenReaction from "./components/TokenReaction";
 import TokenGenerator from "./components/TokenGenerator";
 import MedicalHistory from "./components/MedicalHistory";
+import AdminDashboard from "./components/AdminDashboard";
+import AdminLogin from "./components/AdminLogin";
 // import TokenDetail from "./components/TokenDetail";
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
               <Route path="/token-reaction" element={<TokenReaction />} />
               <Route path="/token-generation" element={<TokenGenerator />} />
               <Route path="/medical-history" element={<MedicalHistory />} />
+              <Route path="/admin-dashboard" element={<AdminDashboard />} />
+              <Route path="/adminLogin" element={<AdminLogin />} />
             </Routes>
           </main>
           <Footer />

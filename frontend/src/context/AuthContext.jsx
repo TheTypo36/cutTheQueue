@@ -1,11 +1,11 @@
 "use client";
 import axios from "axios";
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect, use } from "react";
 import { API_URLS } from "../api.js";
 const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+  const [admin, setAdmin] = useState(null);
   const handleAdminLogout = async () => {
     try {
       console.log("admin token at logout", localStorage.getItem("token"));
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
       localStorage.removeItem("token");
-      localStorage.removeItem("name");
+      localStorage.removeItem("hosiptalName");
       setUser(null);
     } catch (error) {
       console.error("Admin logout error:", error);
@@ -50,15 +50,20 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
+    const hospitalName = localStorage.getItem("hospitalName");
+
     if (token && username) {
       setUser({ username });
+    }
+    if (token && hospitalName) {
+      setAdmin({ hospitalName });
     }
   }, []);
 
   const adminSignIn = (admin, token) => {
     console.log("admin token at signIn", token);
     localStorage.setItem("token", token);
-    localStorage.setItem("username", admin.name);
+    localStorage.setItem("hosiptalName", admin.hosiptalName);
     setAdmin(admin);
   };
   const signIn = (patient, token) => {
@@ -78,7 +83,7 @@ export const AuthProvider = ({ children }) => {
   const adminSignOut = async () => {
     await handleAdminLogout();
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    localStorage.removeItem("hosiptalName");
     setUser(null);
   };
 
