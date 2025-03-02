@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   const adminSignIn = (admin, token) => {
     console.log("admin token at signIn", token);
     localStorage.setItem("token", token);
-    localStorage.setItem("hosiptalName", admin.hosiptalName);
+    localStorage.setItem("hosiptalName", admin.hospitalName);
     setAdmin(admin);
   };
   const signIn = (patient, token) => {

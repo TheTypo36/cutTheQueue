@@ -43,4 +43,7 @@ import { ApiError } from "./src/utils/ApiError.js";
 app.use("/api/v1/patient", patientRouter);
 // app.use("/api/v1/hospital", hospitalRouter);
 // app.use("/api/v1/doctor", doctorRouter);
+
+import hospitalRouter from "./src/Routes/hospitalRouter.routes.js";
+app.use("/api/v1/hospital", hospitalRouter);
 export default app;

@@ -1,9 +1,8 @@
 import { Router } from "express";
-import { verify } from "jsonwebtoken";
-import { verifyJwt } from "../middleware/auth";
-
+import { verifyJwt } from "../middleware/auth.js";
+import { getAdminSignIn } from "../controllers/hospitalController.js";
 const router = Router();
 
-router.route("/signIn-admin").post(adminLogin);
+router.route("/get-admin").post(getAdminSignIn);
 
-router.route("/get-admin").post(verifyJwt);
+export default router;

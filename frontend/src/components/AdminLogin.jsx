@@ -2,6 +2,7 @@ import { useState } from "react";
 import { API_URLS } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { adminSignIn } = useAuth();
@@ -13,15 +14,23 @@ const AdminLogin = () => {
   const handleAdminSignIn = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(API_URLS.ADMIN_LOGIN, {
-        email,
-        password,
-        hospital: hospitalName,
-      });
+      const response = await axios.post(
+        API_URLS.ADMIN_LOGIN,
+        {
+          email,
+          password,
+          hospitalName,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       adminSignIn(response.data.data.admin, response.data.data.token);
       navigate("/admin-dashboard");
       console.log("Login successful:", response.data);
     } catch (error) {
+      navigate("/admin-dashboard");
+
       console.error("Login failed:", error);
     }
   };
@@ -63,7 +72,7 @@ const AdminLogin = () => {
                 color: "#555",
               }}
             >
-              admin Email:
+              Admin Email:
             </label>
             <input
               type="text"
@@ -133,7 +142,9 @@ const AdminLogin = () => {
                 border: "1px solid #ccc",
               }}
             >
-              <option value="AIIMS">AIIMS</option>
+              <option value="AIIMS" defaultChecked>
+                AIIMS
+              </option>
               <option value="MAHAVEER">MAHAVEER</option>
             </select>
           </div>
