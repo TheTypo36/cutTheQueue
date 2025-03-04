@@ -110,7 +110,7 @@ const generateAcessTokenAndRefreshToken = async (patientId) => {
 const register = asyncHandler(async (req, res) => {
   const { name, age, email, password, phoneNumber, isNewPatient, department } =
     req.body;
-
+  console.log("req.body in register", req.body);
   const patientExists = await Patient.findOne({ name });
 
   if (patientExists) {
@@ -245,7 +245,7 @@ const getMedicalRecord = asyncHandler(async (req, res) => {
     throw new ApiError(500, "not getting the info from verifyjwt");
   }
   const medicalHistory = req.patient.medicalHistory;
-
+  console.log("getting the record ", medicalHistory);
   return res
     .status(200)
     .json(

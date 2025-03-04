@@ -80,6 +80,14 @@ function Registration() {
     return true;
   };
 
+  const validateStep3 = () => {
+    if (!medicalHistory) {
+      toast.error("Medical history is required");
+      return false;
+    }
+    return true;
+  };
+
   const nextStep = () => {
     if (formStep === 1 && validateStep1()) {
       setFormStep(2);
@@ -92,10 +100,17 @@ function Registration() {
     setFormStep(formStep - 1);
   };
 
-  const handleSubmit = async (e) => {
+  // Separate handlers for each step
+  const handleContinueClick = (e) => {
+    e.preventDefault(); // Prevent any form submission
+    e.stopPropagation(); // Stop event bubbling
+    nextStep();
+  };
+
+  const handleFinalSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateStep1() || !validateStep2()) {
+    if (!validateStep1() || !validateStep2() || !validateStep3()) {
       return;
     }
 
@@ -241,7 +256,7 @@ function Registration() {
                   onChange={(e) => setDepartment(e.target.value)}
                 >
                   <option value="">Select Department</option>
-                  <option value="Cardiology">Cardiology</option>
+                  <option value="cardio">Cardiology</option>
                   <option value="Neurology">Neurology</option>
                   <option value="Orthopedics">Orthopedics</option>
                   <option value="Pediatrics">Pediatrics</option>
@@ -415,29 +430,43 @@ function Registration() {
               Join CutTheQueue to streamline your healthcare experience
             </p>
 
-            <form onSubmit={handleSubmit}>
-              {renderFormStep()}
-
-              <div className="mt-8 flex justify-between">
-                {formStep > 1 && (
+            {/* For steps 1 and 2, use div instead of form to avoid accidental submission */}
+            {formStep < 3 ? (
+              <div>
+                {renderFormStep()}
+                <div className="mt-8 flex justify-between">
+                  {formStep > 1 && (
+                    <button
+                      type="button"
+                      onClick={prevStep}
+                      className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      Back
+                    </button>
+                  )}
                   <button
                     type="button"
-                    onClick={prevStep}
-                    className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    Back
-                  </button>
-                )}
-
-                {formStep < 3 ? (
-                  <button
-                    type="button"
-                    onClick={nextStep}
+                    onClick={handleContinueClick}
                     className="ml-auto px-6 py-2 rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors"
                   >
                     Continue
                   </button>
-                ) : (
+                </div>
+              </div>
+            ) : (
+              /* Only use an actual form for the final step */
+              <form onSubmit={handleFinalSubmit}>
+                {renderFormStep()}
+                <div className="mt-8 flex justify-between">
+                  {formStep > 1 && (
+                    <button
+                      type="button"
+                      onClick={prevStep}
+                      className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      Back
+                    </button>
+                  )}
                   <button
                     type="submit"
                     disabled={loading}
@@ -452,9 +481,9 @@ function Registration() {
                       "Complete Registration"
                     )}
                   </button>
-                )}
-              </div>
-            </form>
+                </div>
+              </form>
+            )}
           </div>
         </div>
 
