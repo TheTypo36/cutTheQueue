@@ -18,6 +18,11 @@ const MedicalHistory = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem("token");
+        console.log("got the token in fetchMedicalRecord", token);
+        console.log(
+          "Sending request to:",
+          API_URLS.GET_PATIENTS_MEDICAL_HISTORY
+        );
 
         if (!token) {
           toast.error("Unauthorized: No token found");
@@ -33,6 +38,7 @@ const MedicalHistory = () => {
             },
           }
         );
+        console.log("response at fetchMedicalHistory", response);
 
         if (!response) {
           toast.error("Failed to fetch medical records");
