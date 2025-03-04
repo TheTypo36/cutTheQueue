@@ -41,8 +41,8 @@ const getAdminSignIn = asyncHandler(async (req, res) => {
   if (admin.password !== password) {
     throw new ApiError(502, "incorrect password");
   }
-  const existedHospital = await Hospital.findOne({ name: hospitalName });
-  console.log("existed hospital", existedHospital);
+  // const existedHospital = await Hospital.findOne({ name: hospitalName });
+  // console.log("existed hospital", existedHospital);
   const hospitalInfo = await Hospital.aggregate([
     {
       $match: {
@@ -52,8 +52,8 @@ const getAdminSignIn = asyncHandler(async (req, res) => {
     {
       $lookup: {
         from: "departments",
-        localField: "_id",
-        foreignField: "hospitals",
+        localField: "departments",
+        foreignField: "_id",
         as: "allDepartments",
         pipeline: [
           {
@@ -102,7 +102,7 @@ const getAdminSignIn = asyncHandler(async (req, res) => {
   if (!hospitalInfo || hospitalInfo.length === 0) {
     throw new ApiError(501, "Failed in getting hospital info");
   }
-  console.log(hospitalInfo);
+  console.log(hospitalInfo[0]);
   const tokens = await generateAccessTokenAndRefreshToken(admin._id);
   return res.status(200).json(
     new ApiResponse(
