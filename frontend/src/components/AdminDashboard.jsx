@@ -63,18 +63,6 @@ const AdminDashboard = () => {
           },
         ],
       },
-      {
-        name: "Oncology",
-        allDoctors: [
-          {
-            name: "Dr. Anuj",
-            allPatients: [
-              { DoctorName: "Test 100" },
-              { DoctorName: "test 101" },
-            ],
-          },
-        ],
-      },
     ],
   });
 
