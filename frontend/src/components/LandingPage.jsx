@@ -10,6 +10,8 @@ import {
   Activity,
   ChevronDown,
 } from "lucide-react";
+import hospitalQueueBg from "../assets/hospital-queue.jpg";
+import FeaturesSection from "./FeaturesSection";
 
 function LandingPage() {
   const [isVisible, setIsVisible] = useState({
@@ -46,21 +48,29 @@ function LandingPage() {
   }, []);
 
   return (
-    <div className="pt-20">
+    <div className="pt-16">
       {/* Hero Section */}
       <section
-        className={`relative overflow-hidden bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 animate-gradient-x py-20 md:py-32 transition-opacity duration-1000 ${
+        className={`relative overflow-hidden py-16 md:py-24 mt-8 transition-opacity duration-1000 bg-blue-600 ${
           isVisible.hero ? "opacity-100" : "opacity-0"
         }`}
+        style={{
+          background: `linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("/hospital-queue.jpg")`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#2563eb', // fallback color
+          minHeight: '85vh' // This ensures the hero section takes up most of the viewport height
+        }}
       >
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]"></div>
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 relative z-10 h-full flex items-center">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight drop-shadow-lg">
               Skip The Wait, <br />
               <span className="text-yellow-300">Cut The Queue</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8">
+            <p className="text-xl md:text-2xl text-white/90 mb-8 drop-shadow">
               Revolutionizing healthcare queuing systems for a seamless patient
               experience
             </p>
@@ -73,7 +83,7 @@ function LandingPage() {
               </Link>
               <Link
                 to="/signin"
-                className="px-8 py-3 rounded-full bg-transparent border-2 border-white text-white font-bold hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
+                className="px-8 py-3 rounded-full bg-black/30 backdrop-blur-sm border-2 border-white text-white font-bold hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
               >
                 Sign In
               </Link>
@@ -84,8 +94,11 @@ function LandingPage() {
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent"></div>
       </section>
 
+      {/* New Features Section */}
+      <FeaturesSection />
+
       {/* Features Section */}
-      <section className="py-20 bg-background" data-scroll>
+      <section className="py-16 bg-background" data-scroll>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 opacity-0 transition-opacity duration-1000">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -144,7 +157,7 @@ function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-900/50" data-scroll>
+      <section className="py-16 bg-gray-50 dark:bg-gray-900/50" data-scroll>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 opacity-0 transition-opacity duration-1000">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -197,7 +210,7 @@ function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-background" data-scroll>
+      <section className="py-16 bg-background" data-scroll>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 opacity-0 transition-opacity duration-1000">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -260,7 +273,7 @@ function LandingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-900/50" data-scroll>
+      <section className="py-16 bg-gray-50 dark:bg-gray-900/50" data-scroll>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 opacity-0 transition-opacity duration-1000">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -316,26 +329,26 @@ function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-white" data-scroll>
+      <section className="pb-8 pt-12 bg-gray-50 dark:bg-gray-800/50" data-scroll>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center opacity-0 transition-opacity duration-1000">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">
               Ready to transform your healthcare experience?
             </h2>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
               Join thousands of patients who have already cut the queue and
               saved countless hours in waiting rooms.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/register"
-                className="px-8 py-3 rounded-full bg-white text-primary font-bold shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1"
+                className="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-purple-600 dark:from-primary-dark dark:to-purple-400 text-white font-bold shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1"
               >
                 Get Started Now
               </Link>
               <Link
                 to="/signin"
-                className="px-8 py-3 rounded-full bg-transparent border-2 border-white text-white font-bold hover:bg-white/10 transition-all duration-300"
+                className="px-8 py-3 rounded-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-bold border-2 border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300"
               >
                 Sign In
               </Link>

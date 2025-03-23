@@ -1,95 +1,84 @@
 "use client";
 import axios from "axios";
-import { createContext, useState, useContext, useEffect, use } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { API_URLS } from "../api.js";
+
 const AuthContext = createContext(null);
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [admin, setAdmin] = useState(null);
-  const handleAdminLogout = async () => {
-    try {
-      console.log("admin token at logout", localStorage.getItem("token"));
-      await axios.post(
-        API_URLS.ADMIN_LOGOUT,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Send token from localStorage if used
-          },
-        }
-      );
-      localStorage.removeItem("token");
-      localStorage.removeItem("hosiptalName");
-      setUser(null);
-    } catch (error) {
-      console.error("Admin logout error:", error);
-    }
-  };
-  const handleLogout = async () => {
-    try {
-      console.log("token at logout", localStorage.getItem("token"));
-      await axios.post(
-        API_URLS.LOGOUT,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Send token from localStorage if used
-          },
-        }
-      );
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      setUser(null);
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
-  };
 
   useEffect(() => {
+    // Check for existing auth state
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
-    const hospitalName = localStorage.getItem("hospitalName");
+    const adminData = localStorage.getItem("admin");
 
     if (token && username) {
-      setUser({ username });
+      setUser({ name: username });
     }
-    if (token && hospitalName) {
-      setAdmin({ hospitalName });
+    if (token && adminData) {
+      setAdmin(JSON.parse(adminData));
     }
   }, []);
 
   const adminSignIn = (admin, token) => {
-    console.log("admin token at signIn", token);
     localStorage.setItem("token", token);
-    localStorage.setItem("hosiptalName", admin.hospitalName);
+    localStorage.setItem("admin", JSON.stringify(admin));
     setAdmin(admin);
   };
+
   const signIn = (patient, token) => {
-    console.log("token at sigIn", token);
     localStorage.setItem("token", token);
     localStorage.setItem("username", patient.name);
     setUser(patient);
   };
 
   const signOut = async () => {
-    await handleLogout();
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    setUser(null);
+    try {
+      await axios.post(API_URLS.LOGOUT, {}, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      setUser(null);
+    }
   };
 
   const adminSignOut = async () => {
-    await handleAdminLogout();
-    localStorage.removeItem("token");
-    localStorage.removeItem("hosiptalName");
-    setUser(null);
+    try {
+      await axios.post(API_URLS.ADMIN_LOGOUT, {}, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+    } catch (error) {
+      console.error("Admin logout error:", error);
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin");
+      setAdmin(null);
+    }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, signIn, signOut, adminSignIn, adminSignOut }}
+      value={{
+        user,
+        admin,
+        signIn,
+        signOut,
+        adminSignIn,
+        adminSignOut,
+      }}
     >
       {children}
     </AuthContext.Provider>
