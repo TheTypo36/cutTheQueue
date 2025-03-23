@@ -48,6 +48,7 @@ function LandingPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
+      
       <section
         className={`relative overflow-hidden bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 animate-gradient-x py-20 md:py-32 transition-opacity duration-1000 ${
           isVisible.hero ? "opacity-100" : "opacity-0"
@@ -69,13 +70,13 @@ function LandingPage() {
                 to="/register"
                 className="px-8 py-3 rounded-full bg-white text-purple-600 font-bold shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1 flex items-center justify-center"
               >
-                Get Started <ArrowRight size={18} className="ml-2" />
+                Click here <ArrowRight size={18} className="ml-2" />
               </Link>
               <Link
                 to="/signin"
                 className="px-8 py-3 rounded-full bg-transparent border-2 border-white text-white font-bold hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
               >
-                Sign In
+                heee
               </Link>
             </div>
           </div>
