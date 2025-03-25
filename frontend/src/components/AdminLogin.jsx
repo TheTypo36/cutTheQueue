@@ -87,6 +87,7 @@ const AdminLogin = () => {
                 padding: "0.5rem",
                 borderRadius: "4px",
                 border: "1px solid #ccc",
+                color: "grey",
               }}
             />
           </div>
@@ -114,6 +115,7 @@ const AdminLogin = () => {
                 padding: "0.5rem",
                 borderRadius: "4px",
                 border: "1px solid #ccc",
+                color: "grey",
               }}
             />
           </div>

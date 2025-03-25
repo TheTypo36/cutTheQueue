@@ -48,6 +48,7 @@ function LandingPage() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
+
       <section
         className={`relative overflow-hidden bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 animate-gradient-x py-20 md:py-32 transition-opacity duration-1000 ${
           isVisible.hero ? "opacity-100" : "opacity-0"
