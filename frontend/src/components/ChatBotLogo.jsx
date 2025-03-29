@@ -83,4 +83,4 @@ function ChatBotLogo({ className = "w-6 h-6" }) {
   );
 }
 
-export default ChatBotLogo; 
+export default ChatBotLogo;  

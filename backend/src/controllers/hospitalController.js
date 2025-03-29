@@ -59,20 +59,30 @@ const getAdminSignIn = asyncHandler(async (req, res) => {
           {
             $lookup: {
               from: "doctors",
-              localField: "doctors", // Refers to `doctors` array in Department
+              localField: "doctors",
               foreignField: "_id",
               as: "allDoctors",
               pipeline: [
+                // Ensure we handle potential null or empty patient arrays
+                {
+                  $addFields: {
+                    patients: { $ifNull: ["$patients", []] },
+                  },
+                },
                 {
                   $lookup: {
                     from: "patients",
-                    localField: "patients", // Fix: Reference `patients` array in Doctor
+                    localField: "patients",
                     foreignField: "_id",
                     as: "allPatients",
                     pipeline: [
                       {
                         $project: {
-                          name: 1, // Fetch only name
+                          name: 1,
+                          // Add other patient fields you want to retrieve
+                          email: 1,
+                          age: 1,
+                          // Add more fields as needed
                         },
                       },
                     ],
@@ -82,7 +92,8 @@ const getAdminSignIn = asyncHandler(async (req, res) => {
                   $project: {
                     name: 1,
                     room: 1,
-                    allPatients: 1,
+                    patients: 1, // Keep original patient references
+                    allPatients: 1, // Populated patient details
                   },
                 },
               ],
@@ -97,12 +108,34 @@ const getAdminSignIn = asyncHandler(async (req, res) => {
         ],
       },
     },
+    // Optional: Additional stages for debugging
+    {
+      $addFields: {
+        departmentCount: { $size: "$allDepartments" },
+        firstDepartmentDoctorCount: {
+          $cond: [
+            { $gt: [{ $size: "$allDepartments" }, 0] },
+            { $size: "$allDepartments.0.allDoctors" },
+            0,
+          ],
+        },
+      },
+    },
   ]);
 
+  // Debugging logs
+  console.log("Hospital Info:", JSON.stringify(hospitalInfo, null, 2));
+  console.log("Total Departments:", hospitalInfo[0]?.departmentCount);
+  console.log(
+    "Doctors in First Department:",
+    hospitalInfo[0]?.firstDepartmentDoctorCount
+  );
+
+  // Optional error handling
   if (!hospitalInfo || hospitalInfo.length === 0) {
-    throw new ApiError(501, "Failed in getting hospital info");
+    throw new ApiError(404, "Hospital not found");
   }
-  console.log(hospitalInfo[0]);
+  console.log("HOSPITAL INFO", hospitalInfo[0]);
   const tokens = await generateAccessTokenAndRefreshToken(admin._id);
   return res.status(200).json(
     new ApiResponse(

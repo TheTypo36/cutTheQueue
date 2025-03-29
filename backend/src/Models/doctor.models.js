@@ -10,11 +10,6 @@ const doctorSchema = new mongoose.Schema({
     ref: "Department",
     required: true,
   },
-  hospital: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Hospital",
-    required: true,
-  },
   room: {
     type: Number,
     required: true,

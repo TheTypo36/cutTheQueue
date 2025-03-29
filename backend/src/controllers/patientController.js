@@ -12,83 +12,94 @@ const options = {
   secure: true,
   sameSite: "None",
 };
+
 const generatePatientToken = async (patientId) => {
   try {
-    console.log("➡️ Starting generatePatientToken for patientId:", patientId);
+    // Validate input
+    if (!patientId) {
+      throw new ApiError(400, "Patient ID is required");
+    }
 
+    // Get today's date at the start of the day
     const today = new Date();
     today.setHours(1, 0, 0, 0);
     const todayStr = today.toISOString().split("T")[0];
 
-    console.log("📅 Today's date string:", todayStr);
+    // Fetch patient with error handling
+    const patient = await Patient.findById(patientId).populate("department");
 
-    // Find existing token for today
-    let tokenData = await PatientToken.findOne({ date: todayStr });
-    console.log("🔍 Existing tokenData:", tokenData);
+    console.log("patient", patient);
 
-    const patient = await Patient.findById(patientId);
     if (!patient) {
-      console.error("❌ ERROR: Patient not found!");
       throw new ApiError(404, "Patient not found");
     }
 
-    console.log("🧑‍⚕️ Fetched patient:", patient);
+    // Fetch or create today's token record
+    let tokenData = await PatientToken.findOne({
+      date: todayStr,
+      department: patient.department._id,
+    });
 
-    const department = await Department.findById(patient.department);
-    console.log("🏥 Fetched department:", department);
+    console.log("tokenData", tokenData);
 
-    let assignedDoctor = patient.isNewPatient
-      ? await Doctor.findOne({ department: department._id }).sort({
-          patients: 1,
-        })
-      : patient.doctor;
+    // Check token limit
+    if (tokenData && tokenData.lastTokenNo >= 100) {
+      throw new ApiError(400, "Token limit reached for today");
+    }
 
-    console.log("👨‍⚕️ Assigned Doctor:", assignedDoctor);
+    // Determine next token number
+    const nextTokenNo = tokenData ? tokenData.lastTokenNo + 1 : 1;
 
+    // Assign doctor logic
+    let assignedDoctor;
+    if (patient.isNewPatient) {
+      // Find doctor with minimum patients in the department
+      assignedDoctor = await Doctor.findOne({
+        department: patient.department._id,
+      })
+        .sort({ patients: 1 })
+        .limit(1);
+
+      if (!assignedDoctor) {
+        throw new ApiError(404, "No available doctors in the department");
+      }
+    } else {
+      // Use existing doctor for returning patients
+      assignedDoctor = patient.doctor;
+    }
+
+    console.log("assignedDoctor", assignedDoctor);
+    // Generate or update token
     if (!tokenData) {
-      console.log("⚠️ No existing tokenData found. Creating a new one...");
-
-      // Generate a unique token
-      const generatedToken = `TOKEN-${Date.now()}-${Math.floor(
-        Math.random() * 1000
-      )}`;
-
       tokenData = await PatientToken.create({
-        token: generatedToken,
+        token: `${todayStr}-${nextTokenNo}`,
         date: todayStr,
-        lastTokenNo: 1,
-        department: patient.department,
-        doctor: assignedDoctor ? assignedDoctor._id : null,
+        lastTokenNo: nextTokenNo,
+        department: patient.department._id,
+        doctor: assignedDoctor._id,
         patient: patient._id,
       });
     } else {
-      console.log("🔄 Incrementing lastTokenNo...");
-      tokenData.lastTokenNo += 1;
+      tokenData.lastTokenNo = nextTokenNo;
       await tokenData.save();
     }
 
-    console.log(
-      "📌 Populating patient token with doctor & department details..."
-    );
-
-    // ✅ Populate doctor & department name inside tokenData
-    await tokenData.populate([
-      { path: "doctor", select: "name" },
-      { path: "department", select: "name" },
-    ]);
-
-    // Update patient with the latest token reference
+    // Update patient details
+    patient.isNewPatient = false;
+    patient.doctor = assignedDoctor._id;
     patient.patientToken = tokenData._id;
     await patient.save({ validateBeforeSave: false });
 
-    console.log(
-      "✅ generatePatientToken SUCCESSFUL! Returning tokenData:",
-      tokenData
-    );
     return tokenData;
   } catch (error) {
-    console.error("❌ ERROR in generatePatientToken:", error);
-    throw new ApiError(500, "Error generating token in generatePatientToken");
+    console.error("Error in generatePatientToken:", error);
+
+    // Re-throw known API errors, wrap others
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(500, "Unexpected error in token generation");
   }
 };
 
