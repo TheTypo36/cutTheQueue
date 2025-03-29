@@ -14,6 +14,8 @@ const API_URLS = {
     import.meta.env.VITE_GET_MEDICAL_HISTORY
   }`,
   ADMIN_LOGIN: `${BASE_URL}${import.meta.env.VITE_GET_ADMIN}`,
+  GOOGLE_MAP_API_KEY: "AIzaSyBHk54pqjcbzFSgvEMNBlLNQoEs00Hp274",
+  DEV_SERVER: `${BASE_URL}${import.meta.env.VITE_GET_HOSPITAL_SUGGESTION}`,
 };
 
 export { API_URLS };

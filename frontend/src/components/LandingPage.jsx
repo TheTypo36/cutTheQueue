@@ -94,7 +94,7 @@ function LandingPage() {
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Our platform offers a comprehensive solution to streamline
-              healthcare queuing
+              healthcare queuing made at HackHeit🎉
             </p>
           </div>
 

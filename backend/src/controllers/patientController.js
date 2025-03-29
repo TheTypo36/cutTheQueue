@@ -6,6 +6,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { PatientToken } from "../Models/patientToken.models.js";
 import { Doctor } from "../Models/doctor.models.js";
 import { Department } from "../Models/department.models.js";
+import axios from "axios";
 // import generateToken from "../utils/generateToken.js";
 const options = {
   httpOnly: true,
@@ -267,6 +268,19 @@ const getMedicalRecord = asyncHandler(async (req, res) => {
       )
     );
 });
+const getHospitalSuggestion = asyncHandler(async (req, res) => {
+  try {
+    const { lat, lng } = req.query;
+
+    const apiKey = process.env.GOOGLE_MAP_API_KEY;
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=10000&type=hospital&key=${apiKey}&&keyword=government+hospital|AIIMS|Mahaveer&type=hospital|university|research_institute`;
+    const response = await axios.get(url);
+
+    return res.status(200).json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 export {
   register,
   login,
@@ -274,4 +288,5 @@ export {
   generatePatientToken,
   getTokenNo,
   getMedicalRecord,
+  getHospitalSuggestion,
 };
