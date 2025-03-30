@@ -142,7 +142,7 @@ const register = asyncHandler(async (req, res) => {
   let incomingDepartment = await Department.findOne({ name: department });
 
   if (!incomingDepartment) {
-    throw (error = new ApiError(404, "Department not found"));
+    throw new ApiError(404, "Department not found");
   }
 
   const patient = await Patient.create({
@@ -271,11 +271,14 @@ const getMedicalRecord = asyncHandler(async (req, res) => {
 const getHospitalSuggestion = asyncHandler(async (req, res) => {
   try {
     const { lat, lng } = req.query;
-
+    console.log("lat", lat, "lng", lng);
+    if (!lat || !lng) {
+      throw new ApiError(400, "Latitude and Longitude are required");
+    }
     const apiKey = process.env.GOOGLE_MAP_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=10000&type=hospital&key=${apiKey}&&keyword=government+hospital|AIIMS|Mahaveer&type=hospital|university|research_institute`;
     const response = await axios.get(url);
-
+    console.log("response", response.data);
     return res.status(200).json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });

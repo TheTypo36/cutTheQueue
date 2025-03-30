@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import HospitalMap from "./HospitalMaps.jsx";
+import HospitalMap from "./HosiptalMap.jsx";
 import useLiveLocation from "./useLiveLocation.js";
 import { API_URLS } from "../../api.js";
 const NearbyHospitals = () => {
@@ -11,7 +11,15 @@ const NearbyHospitals = () => {
     console.log(API_URLS.DEV_SERVER);
     const url = `${API_URLS.DEV_SERVER}?lat=${latitude}&lng=${longitude}`;
     try {
-      const response = await fetch(url);
+      console.log("fetcing a url", url);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ latitude, longitude }),
+      });
+
       const data = await response.json();
       console.log("got the data", data);
 
@@ -45,7 +53,10 @@ const NearbyHospitals = () => {
         <ul>
           {hospitals.map((hospital) => (
             <li key={hospital.place_id}>
-              {hospital.name} - {hospital.vicinity}
+              <link to="/sign-in">
+                {" "}
+                {hospital.name} - {hospital.vicinity}
+              </link>
             </li>
           ))}
           <HospitalMap hospitals={hospitals} />

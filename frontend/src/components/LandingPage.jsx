@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -67,7 +65,7 @@ function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/register"
+                to="/hospital"
                 className="px-8 py-3 rounded-full bg-white text-purple-600 font-bold shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1 flex items-center justify-center"
               >
                 GetStarted <ArrowRight size={18} className="ml-2" />
