@@ -61,7 +61,7 @@ const NearbyHospitals = () => {
             {hospitals.map((hospital) => (
               <div key={hospital.place_id}>
                 <Link
-                  to="/signin"
+                  to="/register"
                   className="block p-4 rounded-lg shadow hover:shadow-lg transition transform hover:scale-105 active:scale-95 bg-white"
                 >
                   <p className="text-xl font-semibold text-gray-800">
