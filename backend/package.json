@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google-cloud/speech": "^7.0.1",
     "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.5.1",

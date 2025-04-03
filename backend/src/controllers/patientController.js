@@ -7,6 +7,7 @@ import { PatientToken } from "../Models/patientToken.models.js";
 import { Doctor } from "../Models/doctor.models.js";
 import { Department } from "../Models/department.models.js";
 import axios from "axios";
+import { Hospital } from "../Models/hospital.models.js";
 // import generateToken from "../utils/generateToken.js";
 const options = {
   httpOnly: true,
@@ -28,7 +29,7 @@ const generatePatientToken = async (patientId) => {
 
     // Fetch patient with error handling
     const patient = await Patient.findById(patientId).populate("department");
-
+    patient.populate("hospital");
     console.log("patient", patient);
 
     if (!patient) {
@@ -120,13 +121,33 @@ const generateAcessTokenAndRefreshToken = async (patientId) => {
   }
 };
 const register = asyncHandler(async (req, res) => {
-  const { name, age, email, password, phoneNumber, isNewPatient, department } =
-    req.body;
-  console.log("req.body in register", req.body);
+  const {
+    name,
+    age,
+    email,
+    password,
+    phoneNumber,
+    isNewPatient,
+    department,
+    hospitalId,
+  } = req.body;
+
+  if (!name || !email || !password || !phoneNumber || !department) {
+    throw new ApiError(400, "All field are required");
+  }
+
+  console.log(hospitalId);
+
+  const hospital = await Hospital.findById(hospitalId);
+
+  if (!hospital) {
+    throw new ApiError(404, "hospital not found");
+  }
+  // console.log("req.body in register", req.body);
   const patientExists = await Patient.findOne({ name });
 
   if (patientExists) {
-    throw new ApiError(400, "User already exists");
+    throw new ApiError(400, "patient already exists");
   }
   const medicalHistoryPath = req.file?.path;
 
@@ -139,32 +160,41 @@ const register = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Error uploading medical history");
   }
 
-  let incomingDepartment = await Department.findOne({ name: department });
+  let incomingDepartment = await Department.findOne({
+    name: department,
+    hospital: hospitalId,
+  });
 
   if (!incomingDepartment) {
     throw new ApiError(404, "Department not found");
   }
+  try {
+    const patient = await Patient.create({
+      name,
+      email,
+      password,
+      age,
+      phoneNumber,
+      isNewPatient,
+      department: incomingDepartment._id,
+      hospital: hospitalId,
+      medicalHistory: medicalHistory.url,
+    });
 
-  const patient = await Patient.create({
-    name,
-    email,
-    password,
-    age,
-    phoneNumber,
-    isNewPatient,
-    department: incomingDepartment._id,
-    medicalHistory: medicalHistory.url,
-  });
+    console.log("patient is created", patient);
 
-  console.log("patient is created", patient);
+    const createdPatient = await Patient.findById(patient._id).select(
+      "-password -refreshToken"
+    );
 
-  const createdPatient = await Patient.findById(patient._id).select(
-    "-password -refreshToken"
-  );
-
-  return res
-    .status(201)
-    .json(new ApiResponse(201, createdPatient, "Patient created successfully"));
+    return res
+      .status(201)
+      .json(
+        new ApiResponse(201, createdPatient, "Patient created successfully")
+      );
+  } catch (error) {
+    throw new ApiError(500, `registration failed: ${error.message}`);
+  }
 });
 
 const login = asyncHandler(async (req, res) => {
@@ -221,7 +251,7 @@ const getTokenNo = asyncHandler(async (req, res) => {
     let tokenData = patient?.patientToken;
     if (!tokenData) {
       tokenData = await generatePatientToken(patient._id);
-      console.log("getting new token", tokenData);
+      console.log("getting new token", tokenData);= 
     }
 
     return res
@@ -278,7 +308,7 @@ const getHospitalSuggestion = asyncHandler(async (req, res) => {
     const apiKey = process.env.GOOGLE_MAP_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=10000&type=hospital&key=${apiKey}&&keyword=government+hospital|AIIMS|Mahaveer&type=hospital|university|research_institute`;
     const response = await axios.get(url);
-    console.log("response", response.data);
+    //console.log("response", response.data);
     return res.status(200).json(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });

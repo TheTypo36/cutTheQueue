@@ -13,6 +13,9 @@ function Header() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const handleGetToken = async () => {
+    navigate("/token-reaction");
+  };
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
@@ -109,7 +112,20 @@ function Header() {
                 <FileText size={18} />
                 <span>Medical History</span>
               </button>
-
+              {user ? (
+                <button
+                  onClick={handleGetToken}
+                  className={`flex items-center space-x-1 px-4 py-2 rounded-full transition-all ${
+                    isActive("/token-reaction")
+                      ? "bg-primary/10 text-primary dark:bg-primary-dark/20 dark:text-primary-dark"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  }`}
+                >
+                  Token
+                </button>
+              ) : (
+                ""
+              )}
               <button
                 onClick={handleSignOut}
                 className="flex items-center space-x-1 px-4 py-2 rounded-full text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"

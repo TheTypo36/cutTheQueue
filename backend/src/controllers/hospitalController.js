@@ -7,6 +7,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 // const getHospitalInfo = asyncHandler(async (req, res) => {
 //   const hospital = req.hospital;
 // });
+
 const generateAccessTokenAndRefreshToken = async (adminId) => {
   try {
     const admin = await Admin.findById(adminId);
@@ -22,6 +23,33 @@ const generateAccessTokenAndRefreshToken = async (adminId) => {
     );
   }
 };
+const getHospital = asyncHandler(async (req, res) => {
+  try {
+    const { name } = req.query;
+
+    if (!name) {
+      return res
+        .status(400)
+        .json(new ApiResponse(400, null, "hospital Name is required"));
+    }
+    console.log("got the name", name);
+
+    const hospital = await Hospital.findOne({ name: name });
+
+    if (!hospital) {
+      return res
+        .status(400)
+        .json(new ApiResponse(400, null, "Hospital Not Found"));
+    }
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, { hospital }, "Successfully fetch the hospital")
+      );
+  } catch (error) {
+    throw new ApiError(500, error.message || "couldn't fetch the hospital");
+  }
+});
 const getAdminSignIn = asyncHandler(async (req, res) => {
   console.log("req.body in admincontroller", req.body);
   const { hospitalName, email, password } = req.body;
@@ -150,4 +178,4 @@ const getAdminSignIn = asyncHandler(async (req, res) => {
   );
 });
 
-export { getAdminSignIn };
+export { getAdminSignIn, getHospital };

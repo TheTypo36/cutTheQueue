@@ -18,6 +18,10 @@ const patientSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    hospital: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Hospital",
+    },
     department: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Department",
@@ -73,6 +77,7 @@ patientSchema.methods.generateAcessToken = function () {
       _id: this._id,
       name: this._name,
       age: this._age,
+      hospital: this._hospital,
       department: this._department,
       phoneNumber: this._phoneNumber,
       medicalHistory: this._medicalHistory,
@@ -90,6 +95,7 @@ patientSchema.methods.generateRefreshToken = function () {
       _id: this._id,
       name: this._name,
       age: this._age,
+      hospital: this._hospital,
       department: this._department,
       phoneNumber: this._phoneNumber,
       medicalHistory: this._medicalHistory,

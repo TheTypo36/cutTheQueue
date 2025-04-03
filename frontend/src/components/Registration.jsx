@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { API_URLS } from "../api";
 import {
   Upload,
@@ -29,9 +29,12 @@ function Registration() {
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
   const [formStep, setFormStep] = useState(1);
-
   const navigate = useNavigate();
+  const locationHospital = useLocation();
 
+  const hospitalId = locationHospital.state?.hospitalId;
+  const hospitalName = locationHospital.state?.name;
+  console.log("in registration hospital id", locationHospital.state);
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -125,7 +128,7 @@ function Registration() {
       formData.append("isNewPatient", isNewPatient);
       formData.append("department", department);
       formData.append("phoneNumber", phoneNumber);
-
+      formData.append("hospitalId", hospitalId);
       if (medicalHistory) {
         formData.append("medicalHistory", medicalHistory);
       }
@@ -371,6 +374,14 @@ function Registration() {
                     </span>
                     <span className="text-gray-900 dark:text-white font-medium">
                       {isNewPatient ? "Yes" : "No"}
+                    </span>
+                  </p>
+                  <p className="text-sm flex justify-between">
+                    <span className="text-gray-500 dark:text-gray-400">
+                      Hospital:
+                    </span>
+                    <span className="text-gray-900 dark:text-white font-medium">
+                      {hospitalName}
                     </span>
                   </p>
                 </div>
