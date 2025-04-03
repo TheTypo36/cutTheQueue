@@ -46,4 +46,5 @@ app.use("/api/v1/patient", patientRouter);
 
 import hospitalRouter from "./src/Routes/hospitalRouter.routes.js";
 app.use("/api/v1/hospital", hospitalRouter);
+app.use("/api/v1/speech", speechRouter);
 export default app;

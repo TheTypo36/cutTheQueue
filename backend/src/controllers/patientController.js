@@ -105,7 +105,7 @@ const generatePatientToken = async (patientId) => {
   }
 };
 
-const generateAcessTokenAndRefreshToken = async (patientId) => {
+export const generateAcessTokenAndRefreshToken = async (patientId) => {
   try {
     const patient = await Patient.findById(patientId);
     const accessToken = patient.generateAcessToken();
@@ -251,7 +251,7 @@ const getTokenNo = asyncHandler(async (req, res) => {
     let tokenData = patient?.patientToken;
     if (!tokenData) {
       tokenData = await generatePatientToken(patient._id);
-      console.log("getting new token", tokenData);= 
+      console.log("getting new token", tokenData);
     }
 
     return res
