@@ -40,6 +40,7 @@ app.use(cookieParser());
 
 import patientRouter from "./src/Routes/patientRouter.routes.js";
 import { ApiError } from "./src/utils/ApiError.js";
+import speechRouter from "./src/Routes/speechRouter.js";
 app.use("/api/v1/patient", patientRouter);
 // app.use("/api/v1/hospital", hospitalRouter);
 // app.use("/api/v1/doctor", doctorRouter);

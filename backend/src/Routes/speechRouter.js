@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { upload } from "multer";
-import { voiceLogin } from "../controllers/speechController";
+import { upload } from "../middleware/multer.js";
+import { voiceLogin } from "../controllers/speechController.js";
 
 const router = Router();
 
-router.post("/voice-login", upload.single("audio"), voiceLogin);
+router.route("/voice-login").post(upload.single("audio"), voiceLogin);
+
+export default router;
